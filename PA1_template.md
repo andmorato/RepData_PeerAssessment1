@@ -1,104 +1,162 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
 Using the function read.csv and the function unz
 
-```{r, load data}
+
+```r
 data<-read.csv(unz("activity.zip","activity.csv"))
 head(data)
 ```
 
+```
+##   steps       date interval
+## 1    NA 2012-10-01        0
+## 2    NA 2012-10-01        5
+## 3    NA 2012-10-01       10
+## 4    NA 2012-10-01       15
+## 5    NA 2012-10-01       20
+## 6    NA 2012-10-01       25
+```
+
 Creating two variables to processing date and time informations
-```{r, date and time variables}
+
+```r
 date<-data$date
 time<-data$interval
 ```
 
 Now, we will adjust the variable time in order to be possible the convertion in class POSIXlt
 
-```{r, adjust variable time}
+
+```r
 time.adjusted<-sprintf("%04d", time)
 head(time.adjusted)
 ```
 
+```
+## [1] "0000" "0005" "0010" "0015" "0020" "0025"
+```
+
 Finally, the variable dateandtime is created. This variable will be used in all plots of time series
-```{r, date and time variable}
+
+```r
 dateandtime<-paste(date, time.adjusted)
 dateandtime<-strptime(dateandtime, "%Y-%m-%d %H%M")
 class(dateandtime)
+```
+
+```
+## [1] "POSIXlt" "POSIXt"
+```
+
+```r
 head(dateandtime)
+```
+
+```
+## [1] "2012-10-01 00:00:00 BRT" "2012-10-01 00:05:00 BRT"
+## [3] "2012-10-01 00:10:00 BRT" "2012-10-01 00:15:00 BRT"
+## [5] "2012-10-01 00:20:00 BRT" "2012-10-01 00:25:00 BRT"
 ```
 
 ## What is mean total number of steps taken per day?
 
 Firstly, we will calculate the total number of steps taken by day using the function tapply
-```{r, steps per day}
+
+```r
 stepspday<-tapply(data$steps,data$date,sum,na.rm=TRUE)
 head(stepspday)
 ```
 
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##          0        126      11352      12116      13294      15420
+```
+
 Now, we will create a histogram of the total steps taken each day.
-```{r, histogram of steps taken each day}
+
+```r
 hist(stepspday,col="red", main="Total number of steps taken each day",xlab="Total stpes")
 ```
 
+![](PA1_template_files/figure-html/histogram of steps taken each day-1.png)<!-- -->
+
 Finally, we will  calculate the mean and median of total steps taken each day.
-```{r, mean and median of steps per day}
+
+```r
 stepspday.mean<-round(mean(stepspday),1)
 stepspday.median<-median(stepspday)
 ```
-So, the mean of steps taken each day is **`r stepspday.mean`** and the median of steps taken each day is **`r stepspday.median`**.
+So, the mean of steps taken each day is **9354.2** and the median of steps taken each day is **10395**.
 
 ## What is the average daily activity pattern?
 
 Firstly, we will calculate the mean of steps taken in each 5 minute interval. Again, we will use the function taplly.
-```{r, steps per interval}
+
+```r
 stepspinterval<-tapply(data$steps,data$interval,mean,na.rm=TRUE)
 head(stepspinterval)
 ```
 
-Now, we will plot the variable created above in function of each 5 minute interval.
-```{r, time series plot}
+```
+##         0         5        10        15        20        25 
+## 1.7169811 0.3396226 0.1320755 0.1509434 0.0754717 2.0943396
+```
 
+Now, we will plot the variable created above in function of each 5 minute interval.
+
+```r
 ## The x axis variable dateandtime[1:288] was setted only for purpose of visualisation. The subset 1:288 is exactly one day of measured data.
 
 plot(dateandtime[1:288],stepspinterval, type="l",ylab="Mean of steps taken in 5 minute interval", xlab="5 minute interval along 24 h", col="red", main="Average daily activity pattern")
 ```
 
+![](PA1_template_files/figure-html/time series plot-1.png)<!-- -->
+
 Finally, we will determine which 5 minute interval contains the biggest average of steps. 
 
 For this, we will subset the vector of one day 5 minute interval for the maximum mean verified in stepspinterval funciotn.
-```{r, interval with maximum average steps}
+
+```r
 max.average<-dateandtime[1:288][stepspinterval==max(stepspinterval)]
 ```
 
-So, the interval with biggest average steps is the 5 minute interval beggining in **`r max.average$hour`h:`r max.average$min`min**.
+So, the interval with biggest average steps is the 5 minute interval beggining in **8h:35min**.
 
 ## Imputing missing values
 
 This section begins with calculation of how many NAs is present in data provided.
-```{r, how many NAs}
+
+```r
 NA.total<-sum(is.na(data$steps))
 ```
-The number os NAs in data provided is **`r NA.total`**.
+The number os NAs in data provided is **2304**.
 
 Now, we will change the NA present in data for values. These values will be the mean verified for the same 5 minute interval.
 
 Firstly, we will create another element in data. It will be the average steps for each interval, that was calculate in section above.
-```{r, average steps in data}
+
+```r
 average<-c(rep(stepspinterval,61))
 data$average<-average
 head(data)
 ```
 
+```
+##   steps       date interval   average
+## 1    NA 2012-10-01        0 1.7169811
+## 2    NA 2012-10-01        5 0.3396226
+## 3    NA 2012-10-01       10 0.1320755
+## 4    NA 2012-10-01       15 0.1509434
+## 5    NA 2012-10-01       20 0.0754717
+## 6    NA 2012-10-01       25 2.0943396
+```
+
 Now, we will create another elemente in data. It will be steps without missing data. This element will be steps element if is not a missing number, otherwise it will be average element value.
-```{r, steps with no missing value in data}
+
+```r
 newsteps<-NULL
 for (i in 1:length(data[,1])){
   if (is.na(data[i,]$steps)){
@@ -111,31 +169,52 @@ data$newsteps<-newsteps
 head(data)
 ```
 
+```
+##   steps       date interval   average  newsteps
+## 1    NA 2012-10-01        0 1.7169811 1.7169811
+## 2    NA 2012-10-01        5 0.3396226 0.3396226
+## 3    NA 2012-10-01       10 0.1320755 0.1320755
+## 4    NA 2012-10-01       15 0.1509434 0.1509434
+## 5    NA 2012-10-01       20 0.0754717 0.0754717
+## 6    NA 2012-10-01       25 2.0943396 2.0943396
+```
+
 Firstly, we will calculate the total number of steps (with no NAs) taken by day using the function tapply
-```{r, steps per day with no NAs}
+
+```r
 stepspday.no.NA<-tapply(data$newsteps,data$date,sum)
 head(stepspday.no.NA)
 ```
 
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##   10766.19     126.00   11352.00   12116.00   13294.00   15420.00
+```
+
 Now, we will create a histogram of the variable newsteps.
-```{r, histogram of steps with no NAs}
+
+```r
 hist(stepspday.no.NA,col="red", main="Total number of steps taken each day (no NAs)",xlab="Total stpes")
 ```
 
+![](PA1_template_files/figure-html/histogram of steps with no NAs-1.png)<!-- -->
+
 Finally, we will  calculate the mean and median of total steps taken each day.
-```{r, mean and median of steps per day (no NAs)}
+
+```r
 options(scipen = 1, digits = 2)
 stepspday.no.NA.mean<-mean(stepspday.no.NA)
 stepspday.no.NA.median<-median(stepspday.no.NA)
 ```
-So, the mean of steps taken each day is **`r stepspday.no.NA.mean`** and the median of steps taken each day is **`r stepspday.no.NA.median`**.
+So, the mean of steps taken each day is **10766.19** and the median of steps taken each day is **10766.19**.
 
 Both mean and median changed. The biggest variation is observed in mean value.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
 Firstly, we will create another element that will represent the of the week for each data collected.
-```{r, weekday}
+
+```r
 weekday<-NULL
 for (i in 1:length(data[,1])){
   if (dateandtime[i]$wday>0 && dateandtime[i]$wday<6){
@@ -148,23 +227,67 @@ data$weekday<-weekday
 head(data)
 ```
 
+```
+##   steps       date interval average newsteps weekday
+## 1    NA 2012-10-01        0   1.717    1.717 Weekday
+## 2    NA 2012-10-01        5   0.340    0.340 Weekday
+## 3    NA 2012-10-01       10   0.132    0.132 Weekday
+## 4    NA 2012-10-01       15   0.151    0.151 Weekday
+## 5    NA 2012-10-01       20   0.075    0.075 Weekday
+## 6    NA 2012-10-01       25   2.094    2.094 Weekday
+```
+
 Now, we will split de data accordind to day of the week. The function used is split.
-```{r, split weekday and weekend}
+
+```r
 data.splited<-split(data,data$weekday)
 str(data.splited)
 ```
 
+```
+## List of 2
+##  $ Weekday:'data.frame':	12960 obs. of  6 variables:
+##   ..$ steps   : int [1:12960] NA NA NA NA NA NA NA NA NA NA ...
+##   ..$ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 1 1 1 1 1 1 1 1 1 ...
+##   ..$ interval: int [1:12960] 0 5 10 15 20 25 30 35 40 45 ...
+##   ..$ average : num [1:12960] 1.717 0.3396 0.1321 0.1509 0.0755 ...
+##   ..$ newsteps: num [1:12960] 1.717 0.3396 0.1321 0.1509 0.0755 ...
+##   ..$ weekday : chr [1:12960] "Weekday" "Weekday" "Weekday" "Weekday" ...
+##  $ Weekend:'data.frame':	4608 obs. of  6 variables:
+##   ..$ steps   : int [1:4608] 0 0 0 0 0 0 0 0 0 0 ...
+##   ..$ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 6 6 6 6 6 6 6 6 6 6 ...
+##   ..$ interval: int [1:4608] 0 5 10 15 20 25 30 35 40 45 ...
+##   ..$ average : num [1:4608] 1.717 0.3396 0.1321 0.1509 0.0755 ...
+##   ..$ newsteps: num [1:4608] 0 0 0 0 0 0 0 0 0 0 ...
+##   ..$ weekday : chr [1:4608] "Weekend" "Weekend" "Weekend" "Weekend" ...
+```
+
 Firstly, we will calculate the mean of steps taken in each 5 minute interval. Again, we will use the function taplly.
-```{r, steps per interval in weekday and weekend}
+
+```r
 stepspinterval.weekday<-tapply(data.splited$Weekday$newsteps,data.splited$Weekday$interval,mean)
 
 stepspinterval.weekend<-tapply(data.splited$Weekend$newsteps,data.splited$Weekend$interval,mean)
 head(stepspinterval.weekday)
+```
+
+```
+##     0     5    10    15    20    25 
+## 2.251 0.445 0.173 0.198 0.099 1.590
+```
+
+```r
 head(stepspinterval.weekend)
 ```
 
+```
+##      0      5     10     15     20     25 
+## 0.2146 0.0425 0.0165 0.0189 0.0094 3.5118
+```
+
 Finally, it will be created the plot with average steps in each 5 minute interval for weekdays and weekends.
-```{r, time series plot in weekdays and weekends}
+
+```r
 par(mfrow=c(2,1))
 
 ## The x axis variable dateandtime[1:288] was setted only for purpose of visualisation. The subset 1:288 is exactly one day of measured data.
@@ -173,4 +296,6 @@ plot(dateandtime[1:288],stepspinterval.weekday, type="l", col="red",main="Weekda
 
 plot(dateandtime[1:288],stepspinterval.weekend, type="l",xlab="5 minute interval along 24 h", col="red", main="Weekend",ylim=c(0,300),ylab="Average number of steps")
 ```
+
+![](PA1_template_files/figure-html/time series plot in weekdays and weekends-1.png)<!-- -->
 
