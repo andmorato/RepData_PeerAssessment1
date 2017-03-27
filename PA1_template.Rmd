@@ -50,8 +50,9 @@ hist(stepspday,col="red", main="Total number of steps taken each day",xlab="Tota
 
 Finally, we will  calculate the mean and median of total steps taken each day.
 ```{r, mean and median of steps per day}
-stepspday.mean<-round(mean(stepspday),1)
-stepspday.median<-median(stepspday)
+options(scipen = 1, digits = 2)
+stepspday.mean<-mean(stepspday[stepspday!=0])
+stepspday.median<-median(stepspday[stepspday!=0])
 ```
 So, the mean of steps taken each day is **`r stepspday.mean`** and the median of steps taken each day is **`r stepspday.median`**.
 
@@ -130,7 +131,7 @@ stepspday.no.NA.median<-median(stepspday.no.NA)
 ```
 So, the mean of steps taken each day is **`r stepspday.no.NA.mean`** and the median of steps taken each day is **`r stepspday.no.NA.median`**.
 
-Both mean and median changed. The biggest variation is observed in mean value.
+Only median has changed after treatment of missing values!!
 
 ## Are there differences in activity patterns between weekdays and weekends?
 

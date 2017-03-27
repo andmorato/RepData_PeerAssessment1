@@ -86,10 +86,11 @@ hist(stepspday,col="red", main="Total number of steps taken each day",xlab="Tota
 Finally, we will  calculate the mean and median of total steps taken each day.
 
 ```r
-stepspday.mean<-round(mean(stepspday),1)
-stepspday.median<-median(stepspday)
+options(scipen = 1, digits = 2)
+stepspday.mean<-mean(stepspday[stepspday!=0])
+stepspday.median<-median(stepspday[stepspday!=0])
 ```
-So, the mean of steps taken each day is **9354.2** and the median of steps taken each day is **10395**.
+So, the mean of steps taken each day is **10766.19** and the median of steps taken each day is **10765**.
 
 ## What is the average daily activity pattern?
 
@@ -101,8 +102,8 @@ head(stepspinterval)
 ```
 
 ```
-##         0         5        10        15        20        25 
-## 1.7169811 0.3396226 0.1320755 0.1509434 0.0754717 2.0943396
+##     0     5    10    15    20    25 
+## 1.717 0.340 0.132 0.151 0.075 2.094
 ```
 
 Now, we will plot the variable created above in function of each 5 minute interval.
@@ -145,13 +146,13 @@ head(data)
 ```
 
 ```
-##   steps       date interval   average
-## 1    NA 2012-10-01        0 1.7169811
-## 2    NA 2012-10-01        5 0.3396226
-## 3    NA 2012-10-01       10 0.1320755
-## 4    NA 2012-10-01       15 0.1509434
-## 5    NA 2012-10-01       20 0.0754717
-## 6    NA 2012-10-01       25 2.0943396
+##   steps       date interval average
+## 1    NA 2012-10-01        0   1.717
+## 2    NA 2012-10-01        5   0.340
+## 3    NA 2012-10-01       10   0.132
+## 4    NA 2012-10-01       15   0.151
+## 5    NA 2012-10-01       20   0.075
+## 6    NA 2012-10-01       25   2.094
 ```
 
 Now, we will create another elemente in data. It will be steps without missing data. This element will be steps element if is not a missing number, otherwise it will be average element value.
@@ -170,13 +171,13 @@ head(data)
 ```
 
 ```
-##   steps       date interval   average  newsteps
-## 1    NA 2012-10-01        0 1.7169811 1.7169811
-## 2    NA 2012-10-01        5 0.3396226 0.3396226
-## 3    NA 2012-10-01       10 0.1320755 0.1320755
-## 4    NA 2012-10-01       15 0.1509434 0.1509434
-## 5    NA 2012-10-01       20 0.0754717 0.0754717
-## 6    NA 2012-10-01       25 2.0943396 2.0943396
+##   steps       date interval average newsteps
+## 1    NA 2012-10-01        0   1.717    1.717
+## 2    NA 2012-10-01        5   0.340    0.340
+## 3    NA 2012-10-01       10   0.132    0.132
+## 4    NA 2012-10-01       15   0.151    0.151
+## 5    NA 2012-10-01       20   0.075    0.075
+## 6    NA 2012-10-01       25   2.094    2.094
 ```
 
 Firstly, we will calculate the total number of steps (with no NAs) taken by day using the function tapply
@@ -188,7 +189,7 @@ head(stepspday.no.NA)
 
 ```
 ## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
-##   10766.19     126.00   11352.00   12116.00   13294.00   15420.00
+##      10766        126      11352      12116      13294      15420
 ```
 
 Now, we will create a histogram of the variable newsteps.
@@ -208,7 +209,7 @@ stepspday.no.NA.median<-median(stepspday.no.NA)
 ```
 So, the mean of steps taken each day is **10766.19** and the median of steps taken each day is **10766.19**.
 
-Both mean and median changed. The biggest variation is observed in mean value.
+Only median has changed after treatment of missing values!!
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
