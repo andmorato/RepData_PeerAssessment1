@@ -44,7 +44,7 @@ head(stepspday)
 ```
 
 Now, we will create a histogram of the total steps taken each day.
-```{r, histogram of steps taken in each day}
+```{r,hist_of_steps_taken}
 hist(stepspday,col="red", main="Total number of steps taken in each day",xlab="Total stpes")
 ```
 
@@ -65,7 +65,7 @@ head(stepspinterval)
 ```
 
 Now, we will plot the variable created above in function of each 5 minute interval.
-```{r, plot of time series}
+```{r,plot_time_series}
 
 ## The x axis variable dateandtime[1:288] was setted only for purpose of visualisation. The subset 1:288 is exactly one day of measured data.
 
@@ -119,7 +119,7 @@ head(stepspday.no.NA)
 ```
 
 Now, we will create a histogram of the variable newsteps.
-```{r, histogram of steps without NAs}
+```{r,hist_without_NAs}
 hist(stepspday.no.NA,col="red", main="Total number of steps taken by each day (no NAs)",xlab="Total stpes")
 ```
 
@@ -165,7 +165,7 @@ head(stepspinterval.weekend)
 ```
 
 Finally, it will be created the plot with average steps in each 5 minute interval for weekdays and weekends.
-```{r, plot of time series in weekdays and weekends}
+```{r,plot_of_time_series_2}
 par(mfrow=c(2,1))
 
 ## The x axis variable dateandtime[1:288] was setted only for purpose of visualisation. The subset 1:288 is exactly one day of measured data.
