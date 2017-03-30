@@ -81,7 +81,7 @@ Now, we will create a histogram of the total steps taken each day.
 hist(stepspday,col="red", main="Total number of steps taken in each day",xlab="Total stpes")
 ```
 
-![](PA1_template_files/figure-html/hist_of_steps_taken-1.png)<!-- -->
+![](PA1_template_files/figure-html/hist_steps_taken-1.png)<!-- -->
 
 Finally, we will  calculate the mean and median of total steps taken each day.
 
@@ -114,7 +114,7 @@ Now, we will plot the variable created above in function of each 5 minute interv
 plot(dateandtime[1:288],stepspinterval, type="l",ylab="Mean of steps taken in 5 minute interval", xlab="5 minute interval along 24 h", col="red", main="Average daily activity")
 ```
 
-![](PA1_template_files/figure-html/plot_time_series-1.png)<!-- -->
+![](PA1_template_files/figure-html/time_series-1.png)<!-- -->
 
 Finally, we will determine which 5 minute interval contains the biggest average of steps. 
 
@@ -198,7 +198,7 @@ Now, we will create a histogram of the variable newsteps.
 hist(stepspday.no.NA,col="red", main="Total number of steps taken by each day (no NAs)",xlab="Total stpes")
 ```
 
-![](PA1_template_files/figure-html/hist_without_NAs-1.png)<!-- -->
+![](PA1_template_files/figure-html/hist_2-1.png)<!-- -->
 
 Finally, we will  calculate the mean and median of total steps taken each day.
 
@@ -298,5 +298,5 @@ plot(dateandtime[1:288],stepspinterval.weekday, type="l", col="red",main="Weekda
 plot(dateandtime[1:288],stepspinterval.weekend, type="l",xlab="5 minute interval along 24 h", col="red", main="Weekend",ylim=c(0,300),ylab="Average number of steps taken")
 ```
 
-![](PA1_template_files/figure-html/plot_of_time_series_2-1.png)<!-- -->
+![](PA1_template_files/figure-html/time_series_2-1.png)<!-- -->
 
