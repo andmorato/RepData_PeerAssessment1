@@ -78,10 +78,10 @@ head(stepspday)
 Now, we will create a histogram of the total steps taken each day.
 
 ```r
-hist(stepspday,col="red", main="Total number of steps taken each day",xlab="Total stpes")
+hist(stepspday,col="red", main="Total number of steps taken in each day",xlab="Total stpes")
 ```
 
-![](PA1_template_files/figure-html/histogram of steps taken each day-1.png)<!-- -->
+![](PA1_template_files/figure-html/histogram of steps taken in each day-1.png)<!-- -->
 
 Finally, we will  calculate the mean and median of total steps taken each day.
 
@@ -111,10 +111,10 @@ Now, we will plot the variable created above in function of each 5 minute interv
 ```r
 ## The x axis variable dateandtime[1:288] was setted only for purpose of visualisation. The subset 1:288 is exactly one day of measured data.
 
-plot(dateandtime[1:288],stepspinterval, type="l",ylab="Mean of steps taken in 5 minute interval", xlab="5 minute interval along 24 h", col="red", main="Average daily activity pattern")
+plot(dateandtime[1:288],stepspinterval, type="l",ylab="Mean of steps taken in 5 minute interval", xlab="5 minute interval along 24 h", col="red", main="Average daily activity")
 ```
 
-![](PA1_template_files/figure-html/time series plot-1.png)<!-- -->
+![](PA1_template_files/figure-html/plot of time series-1.png)<!-- -->
 
 Finally, we will determine which 5 minute interval contains the biggest average of steps. 
 
@@ -195,10 +195,10 @@ head(stepspday.no.NA)
 Now, we will create a histogram of the variable newsteps.
 
 ```r
-hist(stepspday.no.NA,col="red", main="Total number of steps taken each day (no NAs)",xlab="Total stpes")
+hist(stepspday.no.NA,col="red", main="Total number of steps taken by each day (no NAs)",xlab="Total stpes")
 ```
 
-![](PA1_template_files/figure-html/histogram of steps with no NAs-1.png)<!-- -->
+![](PA1_template_files/figure-html/histogram of steps without NAs-1.png)<!-- -->
 
 Finally, we will  calculate the mean and median of total steps taken each day.
 
@@ -295,8 +295,8 @@ par(mfrow=c(2,1))
 
 plot(dateandtime[1:288],stepspinterval.weekday, type="l", col="red",main="Weekdays", ylim=c(0,300),xlab="",ylab="Average number of steps")
 
-plot(dateandtime[1:288],stepspinterval.weekend, type="l",xlab="5 minute interval along 24 h", col="red", main="Weekend",ylim=c(0,300),ylab="Average number of steps")
+plot(dateandtime[1:288],stepspinterval.weekend, type="l",xlab="5 minute interval along 24 h", col="red", main="Weekend",ylim=c(0,300),ylab="Average number of steps taken")
 ```
 
-![](PA1_template_files/figure-html/time series plot in weekdays and weekends-1.png)<!-- -->
+![](PA1_template_files/figure-html/plot of time series in weekdays and weekends-1.png)<!-- -->
 

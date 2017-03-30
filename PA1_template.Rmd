@@ -44,8 +44,8 @@ head(stepspday)
 ```
 
 Now, we will create a histogram of the total steps taken each day.
-```{r, histogram of steps taken each day}
-hist(stepspday,col="red", main="Total number of steps taken each day",xlab="Total stpes")
+```{r, histogram of steps taken in each day}
+hist(stepspday,col="red", main="Total number of steps taken in each day",xlab="Total stpes")
 ```
 
 Finally, we will  calculate the mean and median of total steps taken each day.
@@ -65,11 +65,11 @@ head(stepspinterval)
 ```
 
 Now, we will plot the variable created above in function of each 5 minute interval.
-```{r, time series plot}
+```{r, plot of time series}
 
 ## The x axis variable dateandtime[1:288] was setted only for purpose of visualisation. The subset 1:288 is exactly one day of measured data.
 
-plot(dateandtime[1:288],stepspinterval, type="l",ylab="Mean of steps taken in 5 minute interval", xlab="5 minute interval along 24 h", col="red", main="Average daily activity pattern")
+plot(dateandtime[1:288],stepspinterval, type="l",ylab="Mean of steps taken in 5 minute interval", xlab="5 minute interval along 24 h", col="red", main="Average daily activity")
 ```
 
 Finally, we will determine which 5 minute interval contains the biggest average of steps. 
@@ -119,8 +119,8 @@ head(stepspday.no.NA)
 ```
 
 Now, we will create a histogram of the variable newsteps.
-```{r, histogram of steps with no NAs}
-hist(stepspday.no.NA,col="red", main="Total number of steps taken each day (no NAs)",xlab="Total stpes")
+```{r, histogram of steps without NAs}
+hist(stepspday.no.NA,col="red", main="Total number of steps taken by each day (no NAs)",xlab="Total stpes")
 ```
 
 Finally, we will  calculate the mean and median of total steps taken each day.
@@ -165,13 +165,13 @@ head(stepspinterval.weekend)
 ```
 
 Finally, it will be created the plot with average steps in each 5 minute interval for weekdays and weekends.
-```{r, time series plot in weekdays and weekends}
+```{r, plot of time series in weekdays and weekends}
 par(mfrow=c(2,1))
 
 ## The x axis variable dateandtime[1:288] was setted only for purpose of visualisation. The subset 1:288 is exactly one day of measured data.
 
 plot(dateandtime[1:288],stepspinterval.weekday, type="l", col="red",main="Weekdays", ylim=c(0,300),xlab="",ylab="Average number of steps")
 
-plot(dateandtime[1:288],stepspinterval.weekend, type="l",xlab="5 minute interval along 24 h", col="red", main="Weekend",ylim=c(0,300),ylab="Average number of steps")
+plot(dateandtime[1:288],stepspinterval.weekend, type="l",xlab="5 minute interval along 24 h", col="red", main="Weekend",ylim=c(0,300),ylab="Average number of steps taken")
 ```
 
